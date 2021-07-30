@@ -25,11 +25,11 @@ namespace Notificator
             WindowState = FormWindowState.Minimized;
             ShowInTaskbar = false;
 
-            Thread checkNotification = new Thread(new ThreadStart(CheckNotification))
+            Thread checkMessage = new Thread(new ThreadStart(CheckMessage))
             {
                 IsBackground = true
             };
-            checkNotification.Start();
+            checkMessage.Start();
         }
 
         private void TrayMenuContext()
@@ -44,7 +44,7 @@ namespace Notificator
             Application.Exit();
         }
 
-        private void CheckNotification()
+        private void CheckMessage()
         {
             while (true)
             {
@@ -57,46 +57,47 @@ namespace Notificator
 
                     if (result != "")
                     {
-                        Console.WriteLine(result);
-
                         Notification notification = JsonConvert.DeserializeObject<Notification>(result);
 
-                        toastUrl = notification.Data.Url;
-
-                        ToastContent toastContent = new ToastContent()
+                        if (notification.Success)
                         {
-                            Launch = "bodyTapped",
-                            Visual = new ToastVisual()
+                            toastUrl = notification.Data.Url;
+
+                            ToastContent toastContent = new ToastContent()
                             {
-                                BindingGeneric = new ToastBindingGeneric()
+                                Launch = "bodyTapped",
+                                Visual = new ToastVisual()
                                 {
-                                    Children =
+                                    BindingGeneric = new ToastBindingGeneric()
                                     {
-                                        new AdaptiveText()
+                                        Children =
                                         {
-                                            Text = notification.Data.Message
-                                        },
-                                        new AdaptiveText()
-                                        {
-                                            Text = UnixToDate(notification.Data.Date, "dd-MM-yyyy HH:mm")
+                                            new AdaptiveText()
+                                            {
+                                                Text = notification.Data.Message
+                                            },
+                                            new AdaptiveText()
+                                            {
+                                                Text = UnixToDate(notification.Data.Date, "dd-MM-yyyy HH:mm")
+                                            }
                                         }
                                     }
-                                }
-                            },
-                            Actions = new ToastActionsCustom()
-                            {
-                                Buttons = { new ToastButton("Open", "go") }
-                            },
-                            Header = new ToastHeader("header", notification.Data.Title, "header")
-                        };
+                                },
+                                Actions = new ToastActionsCustom()
+                                {
+                                    Buttons = { new ToastButton("Open", "go") }
+                                },
+                                Header = new ToastHeader("header", notification.Data.Title, "header")
+                            };
 
-                        var doc = new XmlDocument();
-                        doc.LoadXml(toastContent.GetContent());
+                            var doc = new XmlDocument();
+                            doc.LoadXml(toastContent.GetContent());
 
-                        var promptNotification = new ToastNotification(doc);
-                        promptNotification.Activated += PromptNotificationOnActivated;
+                            var promptNotification = new ToastNotification(doc);
+                            promptNotification.Activated += PromptNotificationOnActivated;
 
-                        ToastNotificationManagerCompat.CreateToastNotifier().Show(promptNotification);
+                            ToastNotificationManagerCompat.CreateToastNotifier().Show(promptNotification);
+                        }
                     }
                 }
                 catch (Exception msg)
