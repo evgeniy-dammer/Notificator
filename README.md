@@ -12,7 +12,7 @@ This program was developed in `Visual Studio 2017`. The following NuGet packages
  - `Microsoft.Toolkit.Uwp.Notifications` v7.0.2.
 
 ### Configuration
-The program has three configurable parameters, which are located in the `App.config` file in :
+The program has three configurable parameters, which are located in the `App.config` file in `bin/Release` folder:
  - `username` - Username of the user who owns the notifications;
  - `url` - URL, which returns a JSON message;
  - `interval` - Request interval in seconds.
