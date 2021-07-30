@@ -1,4 +1,4 @@
-﻿namespace Notifier
+﻿namespace Notificator
 {
     class Data
     {
