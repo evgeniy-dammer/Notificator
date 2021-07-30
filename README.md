@@ -4,7 +4,9 @@
 Notificator is a small program that makes requests to a specific URL in the background, receives a JSON message and displays it in Windows Notification Center for a specific user.
 
 ### Screenshot
-
+<p align="center">
+  <img src="https://github.com/evgeniy-dammer/Notificator/blob/develop/Screenshots/Notificator1.JPG">
+</p>
 
 ### Launching project
 This program was developed in `Visual Studio 2017`. The following NuGet packages have also been added:
@@ -20,3 +22,6 @@ The program has three configurable parameters, which are located in the `App.con
  - `url` - URL, which returns a JSON message;
  - `interval` - Request interval in seconds.
  
+<p align="center">
+  <img src="https://github.com/evgeniy-dammer/Notificator/blob/develop/Screenshots/Notificator2.PNG">
+</p>
