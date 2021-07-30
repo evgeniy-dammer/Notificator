@@ -9,16 +9,16 @@ using Windows.Data.Xml.Dom;
 using Newtonsoft.Json;
 using Microsoft.Toolkit.Uwp.Notifications;
 
-namespace Notifier
+namespace Notificator
 {
-    public partial class Notifier : Form
+    public partial class Notificator : Form
     {
         string userName = ConfigurationManager.AppSettings["username"];
         string url = ConfigurationManager.AppSettings["url"];
         string interval = ConfigurationManager.AppSettings["interval"] + "000";
         string toastUrl = "";
 
-        public Notifier()
+        public Notificator()
         {
             InitializeComponent();
             TrayMenuContext();
@@ -35,7 +35,7 @@ namespace Notifier
         private void TrayMenuContext()
         {
             notifyIcon1.ContextMenuStrip = new ContextMenuStrip();
-            notifyIcon1.ContextMenuStrip.Items.Add("Çykma", null, MenuExit_Click);
+            notifyIcon1.ContextMenuStrip.Items.Add("Exit", null, MenuExit_Click);
         }
 
         private void MenuExit_Click(object sender, EventArgs e)
@@ -50,13 +50,15 @@ namespace Notifier
             {
                 try
                 {
-                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url + "?username=" + userName);
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url + userName);
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
                     string result = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
-                    if (result != "{\"success\":true,\"data\":\"\"}")
+                    if (result != "")
                     {
+                        Console.WriteLine(result);
+
                         Notification notification = JsonConvert.DeserializeObject<Notification>(result);
 
                         toastUrl = notification.Data.Url;
@@ -83,7 +85,7 @@ namespace Notifier
                             },
                             Actions = new ToastActionsCustom()
                             {
-                                Buttons = { new ToastButton("Geçmek", "go") }
+                                Buttons = { new ToastButton("Open", "go") }
                             },
                             Header = new ToastHeader("header", notification.Data.Title, "header")
                         };

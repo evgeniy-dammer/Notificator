@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Notifier
+namespace Notificator
 {
     static class Program
     {
@@ -13,7 +13,7 @@ namespace Notifier
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Notifier());
+            Application.Run(new Notificator());
         }
     }
 }

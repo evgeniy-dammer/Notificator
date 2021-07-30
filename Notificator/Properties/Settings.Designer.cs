@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Notifier.Properties {
+namespace Notificator.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
