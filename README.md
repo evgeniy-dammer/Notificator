@@ -29,7 +29,7 @@ The program has three configurable parameters, which are located in the `App.con
 ### JSON message structure
 The message structure looks like this:
 
-<pre>
+<code>
 {
 	"success": true,
 	"data":
@@ -40,4 +40,4 @@ The message structure looks like this:
 		"url": "http://somesite.com/"
 	}
 }
-</pre>
+</code>
