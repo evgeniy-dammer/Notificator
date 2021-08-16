@@ -1,7 +1,7 @@
 # Notificator :bell:
 
 ### Description
-Notificator is a small program that makes requests to a specific URL in the background, receives a JSON message and displays it in Windows Notification Center for a specific user.
+Notificator is a simple program that makes requests to a specific URL in the background, receives a JSON message and displays it in Windows Notification Center for a specific user.
 
 ### Screenshot
 <p align="center">

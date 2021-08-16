@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -13,29 +12,46 @@ namespace Notificator
 {
     public partial class Notificator : Form
     {
-        string userName = ConfigurationManager.AppSettings["username"];
-        string url = ConfigurationManager.AppSettings["url"];
-        string interval = ConfigurationManager.AppSettings["interval"] + "000";
+        string url = "";
+        string interval = "";
         string toastUrl = "";
 
         public Notificator()
         {
             InitializeComponent();
             TrayMenuContext();
+            GetSettings();
             WindowState = FormWindowState.Minimized;
             ShowInTaskbar = false;
 
-            Thread checkMessage = new Thread(new ThreadStart(CheckMessage))
+            
+            if (!String.IsNullOrEmpty(url) && !String.IsNullOrEmpty(interval))
             {
-                IsBackground = true
-            };
-            checkMessage.Start();
+                Thread checkMessage = new Thread(new ThreadStart(CheckMessage))
+                {
+                    IsBackground = true
+                };
+                checkMessage.Start();
+            }
+        }
+
+        private void GetSettings()
+        {
+            url = (string)Properties.Settings.Default["Url"];
+            interval = (string)Properties.Settings.Default["Interval"];
         }
 
         private void TrayMenuContext()
         {
             notifyIcon1.ContextMenuStrip = new ContextMenuStrip();
+            notifyIcon1.ContextMenuStrip.Items.Add("Settings", null, MenuSettings_Click);
             notifyIcon1.ContextMenuStrip.Items.Add("Exit", null, MenuExit_Click);
+        }
+
+        private void MenuSettings_Click(object sender, EventArgs e)
+        {
+            var settingsForm = new Settings();
+            settingsForm.ShowDialog();
         }
 
         private void MenuExit_Click(object sender, EventArgs e)
@@ -50,7 +66,7 @@ namespace Notificator
             {
                 try
                 {
-                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url + userName);
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
                     string result = new StreamReader(response.GetResponseStream()).ReadToEnd();
@@ -103,6 +119,7 @@ namespace Notificator
                 catch (Exception msg)
                 {
                     Console.WriteLine(msg.ToString());
+                    MessageBox.Show(msg.Message);
                 }
 
                 Thread.Sleep(int.Parse(interval));
