@@ -17,13 +17,16 @@ This program was developed with `Visual Studio 2017`. The following `NuGet packa
  - `Microsoft.Toolkit.Uwp.Notifications` v7.0.2.
 
 ### Configuration
-The program has three configurable parameters, which are located in the `bin/Release/App.config` file:
- - `username` - User who owns the notifications;
+The program has two configurable parameters, which you can set in context menu `Settings`:
  - `url` - URL, which returns a JSON message;
- - `interval` - Request interval in seconds.
+ - `interval` - Request interval in milliseconds.
  
 <p align="center">
   <img src="https://github.com/evgeniy-dammer/Notificator/blob/develop/Screenshots/Notificator2.PNG">
+</p>
+
+<p align="center">
+  <img src="https://github.com/evgeniy-dammer/Notificator/blob/develop/Screenshots/Notificator3.PNG">
 </p>
 
 ### JSON message structure
